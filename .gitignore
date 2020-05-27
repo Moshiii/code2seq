@@ -4,4 +4,7 @@
 *.iml
 *.xml
 *.pyc
-
+win_env/
+data/
+env/
+models/

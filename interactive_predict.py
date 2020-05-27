@@ -14,6 +14,7 @@ class InteractivePredictor:
         model.predict([])
         self.model = model
         self.config = config
+        # why defining a extractor
         self.path_extractor = Extractor(config, EXTRACTION_API, self.config.MAX_PATH_LENGTH, max_path_width=2)
 
     @staticmethod
@@ -32,12 +33,17 @@ class InteractivePredictor:
                 return
             user_input = ' '.join(self.read_file(input_filename))
             try:
+                # what is path extractor doing?
                 predict_lines, pc_info_dict = self.path_extractor.extract_paths(user_input)
+########## predict_lines containes the transformed string
+                print(predict_lines)
             except ValueError:
                 continue
+
             model_results = self.model.predict(predict_lines)
 
             prediction_results = Common.parse_results(model_results, pc_info_dict, topk=SHOW_TOP_CONTEXTS)
+########## prediction_results containes the predict result
             for index, method_prediction in prediction_results.items():
                 print('Original name:\t' + method_prediction.original_name)
                 if self.config.BEAM_WIDTH == 0:
